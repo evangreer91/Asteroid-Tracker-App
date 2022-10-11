@@ -38,7 +38,7 @@ interface NasaWebServiceApi {
 
     // we specify an endpoint for getting the image of the day
     @GET("planetary/apod")
-    suspend fun getImageOfTheDay(@Query("api_key") api_key: String): PictureOfTheDay
+    suspend fun getImageOfTheDay(@Query("api_key") api_key: String): ImageOfTheDay
 }
 
 // public api object that exposes the lazy-initialized Retrofit service

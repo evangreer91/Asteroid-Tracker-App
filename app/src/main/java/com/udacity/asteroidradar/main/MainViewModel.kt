@@ -5,15 +5,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.udacity.asteroidradar.api.NasaApi
-import com.udacity.asteroidradar.api.PictureOfTheDay
+import com.udacity.asteroidradar.api.ImageOfTheDay
 import com.udacity.asteroidradar.api.parseAsteroidsJsonResult
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
 class MainViewModel : ViewModel() {
 
-    private val _imageOfTheDayResponse = MutableLiveData<PictureOfTheDay>()
-    val imageOfTheDayResponse: LiveData<PictureOfTheDay>
+    private val _imageOfTheDayResponse = MutableLiveData<ImageOfTheDay>()
+    val imageOfTheDayResponse: LiveData<ImageOfTheDay>
         get() = _imageOfTheDayResponse
 
     private val _asteroidsResponse = MutableLiveData<String>()
@@ -22,7 +22,7 @@ class MainViewModel : ViewModel() {
 
     init {
         getNeoWSProperties()
-        getNASAPictureOfTheDay()
+        getImageOfTheDay()
     }
 
     private fun getNeoWSProperties() {
@@ -31,7 +31,7 @@ class MainViewModel : ViewModel() {
         val filter = HashMap<String, String>()
         filter["start_date"] = "2015-09-08"
         filter["end_date"] = "2015-09-08"
-        filter["api_key"] = "KnAmTbGzQWQKqgLxcDOGbyQsy3xfghB55wYm7LSq"
+        filter["api_key"] = "API_KEY_HERE"
 
         // we run getAsteroids call in a coroutine and take advantage of error handling
         viewModelScope.launch {
@@ -47,9 +47,9 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    private fun getNASAPictureOfTheDay() {
+    private fun getImageOfTheDay() {
 
-        val APIKey = "KnAmTbGzQWQKqgLxcDOGbyQsy3xfghB55wYm7LSq"
+        val APIKey = "API_KEY_HERE"
 
         // we run getPictureOfTheDay call in a coroutine and take advantage of error handling
         viewModelScope.launch {
