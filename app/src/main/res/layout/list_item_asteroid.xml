@@ -25,7 +25,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.499"
-            app:srcCompat="@drawable/ic_status_normal" />
+            app:srcCompat="@drawable/ic_status_normal"
+            app:statusIcon="@{asteroid}"/>
 
         <TextView
             android:id="@+id/codename_string"
@@ -38,7 +39,8 @@
             app:layout_constraintEnd_toStartOf="@+id/is_potentially_hazardous_icon"
             app:layout_constraintHorizontal_bias="0.034"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/is_potentially_hazardous_icon" />
+            app:layout_constraintTop_toTopOf="@+id/is_potentially_hazardous_icon"
+            app:codenameString="@{asteroid}"/>
 
         <TextView
             android:id="@+id/close_approach_date_string"
@@ -50,6 +52,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/is_potentially_hazardous_icon"
             app:layout_constraintEnd_toStartOf="@+id/is_potentially_hazardous_icon"
             app:layout_constraintHorizontal_bias="0.034"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:closeApproachDateString="@{asteroid}"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
