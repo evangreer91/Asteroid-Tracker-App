@@ -7,11 +7,25 @@ import androidx.databinding.BindingAdapter
 import com.squareup.picasso.Picasso
 
 @BindingAdapter("statusIcon")
-fun bindAsteroidStatusImage(imageView: ImageView, isHazardous: Boolean) {
-    if (isHazardous) {
-        imageView.setImageResource(R.drawable.ic_status_potentially_hazardous)
+fun ImageView.setAsteroidStatusImage(item: Asteroid) {
+    if (item.isPotentiallyHazardous) {
+        setImageResource(R.drawable.ic_status_potentially_hazardous)
     } else {
-        imageView.setImageResource(R.drawable.ic_status_normal)
+        setImageResource(R.drawable.ic_status_normal)
+    }
+}
+
+@BindingAdapter("codenameString")
+fun TextView.setCodename(item: Asteroid) {
+    item?.let {
+        text = item.codename
+    }
+}
+
+@BindingAdapter("closeApproachDateString")
+fun TextView.setCloseApproachDate(item: Asteroid) {
+    item?.let {
+        text = item.closeApproachDate
     }
 }
 

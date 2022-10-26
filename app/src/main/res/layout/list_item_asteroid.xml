@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="asteroid"
+            type="com.udacity.asteroidradar.Asteroid" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#000000">
+
+        <ImageView
+            android:id="@+id/is_potentially_hazardous_icon"
+            android:layout_width="58dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.499"
+            app:srcCompat="@drawable/ic_status_normal"
+            app:statusIcon="@{asteroid}"/>
+
+        <TextView
+            android:id="@+id/codename_string"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Codename"
+            android:textColor="#FFFFFF"
+            app:layout_constraintBottom_toTopOf="@+id/close_approach_date_string"
+            app:layout_constraintEnd_toStartOf="@+id/is_potentially_hazardous_icon"
+            app:layout_constraintHorizontal_bias="0.034"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/is_potentially_hazardous_icon"
+            app:codenameString="@{asteroid}"/>
+
+        <TextView
+            android:id="@+id/close_approach_date_string"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="2020-08-08"
+            android:textColor="#FFFFFF"
+            app:layout_constraintBottom_toBottomOf="@+id/is_potentially_hazardous_icon"
+            app:layout_constraintEnd_toStartOf="@+id/is_potentially_hazardous_icon"
+            app:layout_constraintHorizontal_bias="0.034"
+            app:layout_constraintStart_toStartOf="parent"
+            app:closeApproachDateString="@{asteroid}"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
