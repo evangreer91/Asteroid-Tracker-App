@@ -1,5 +1,6 @@
 package com.udacity.asteroidradar.main
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.MutableLiveData
@@ -36,12 +37,13 @@ class MainViewModel : ViewModel() {
         val filter = HashMap<String, String>()
         filter["start_date"] = "2015-09-08"
         filter["end_date"] = "2015-09-08"
-        filter["api_key"] = "KnAmTbGzQWQKqgLxcDOGbyQsy3xfghB55wYm7LSq"
+        filter["api_key"] = "gBoOTigLxjL6vuY426CjoefdjLlrJeWm3u8Dza7A"
 
         // we run getAsteroids call in a coroutine and take advantage of error handling
         viewModelScope.launch {
             try {
                 var response = NasaApi.retrofitService.getAsteroids(filter)
+                Log.i("MainViewModel", response)
                 val result = JSONObject(response)
                 val data = parseAsteroidsJsonResult(result)
 
@@ -49,13 +51,14 @@ class MainViewModel : ViewModel() {
                 _status.value = "Success"
             } catch (e: Exception) {
                 _status.value = "Failure: ${e.message}"
+                Log.i("MainViewModel", _status.value!!)
             }
         }
     }
 
     private fun getImageOfTheDay() {
 
-        val APIKey = "KnAmTbGzQWQKqgLxcDOGbyQsy3xfghB55wYm7LSq"
+        val APIKey = "gBoOTigLxjL6vuY426CjoefdjLlrJeWm3u8Dza7A"
 
         // we run getPictureOfTheDay call in a coroutine and take advantage of error handling
         viewModelScope.launch {
@@ -68,5 +71,17 @@ class MainViewModel : ViewModel() {
 
             }
         }
+    }
+
+    private val _navigateToSelectedAsteroid = MutableLiveData<Asteroid>()
+    val navigateToSelectedAsteroid: LiveData<Asteroid>
+        get() = _navigateToSelectedAsteroid
+
+    fun displayAsteroidDetails(asteroid: Asteroid) {
+        _navigateToSelectedAsteroid.value = asteroid
+    }
+
+    fun displayAsteroidDetailsComplete() {
+        _navigateToSelectedAsteroid.value = null
     }
 }
