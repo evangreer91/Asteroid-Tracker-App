@@ -1,6 +1,7 @@
 package com.udacity.asteroidradar.main
 
 import android.app.Application
+import android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO
 import android.util.Log
 import androidx.lifecycle.*
 import com.udacity.asteroidradar.domain.Asteroid
@@ -38,12 +39,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             try {
                 var imageResponse = NasaApi.retrofitService.getImageOfTheDay(APIKey)
-                if
-
-
                 _imageOfTheDayResponse.value = imageResponse
             } catch (e: Exception) {
-
+                println("Handling error...")
             }
         }
     }
