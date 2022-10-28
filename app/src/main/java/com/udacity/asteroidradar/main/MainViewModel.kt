@@ -38,6 +38,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             try {
                 var imageResponse = NasaApi.retrofitService.getImageOfTheDay(APIKey)
+                if
 
 
                 _imageOfTheDayResponse.value = imageResponse

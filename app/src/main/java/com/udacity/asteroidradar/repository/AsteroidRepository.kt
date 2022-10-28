@@ -1,8 +1,12 @@
 package com.udacity.asteroidradar.repository
 
+import android.os.Build
+import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.udacity.asteroidradar.api.NasaApi
+import com.udacity.asteroidradar.api.getNextSevenDaysFormattedDates
 import com.udacity.asteroidradar.api.parseAsteroidsJsonResult
 import com.udacity.asteroidradar.database.AsteroidDatabase
 import com.udacity.asteroidradar.database.asDomainModel
@@ -21,14 +25,16 @@ class AsteroidRepository(private val database: AsteroidDatabase) {
 
     suspend fun refreshAsteroids() {
         withContext(Dispatchers.IO) {
+            val dates = getNextSevenDaysFormattedDates()
+            Log.i("AsteroidRepository", "${dates.last()}")
+
             val filter = HashMap<String, String>()
-            filter["start_date"] = "2015-09-08"
-            filter["end_date"] = "2015-09-08"
+            filter["start_date"] = dates[0]
+            filter["end_date"] = dates.last()
             filter["api_key"] = "gBoOTigLxjL6vuY426CjoefdjLlrJeWm3u8Dza7A"
 
             val response = NasaApi.retrofitService.getAsteroids(filter)
-            val data =
-                parseAsteroidsJsonResult(JSONObject(response)).asDatabaseModel().toTypedArray()
+            val data = parseAsteroidsJsonResult(JSONObject(response)).asDatabaseModel().toTypedArray()
 
             database.asteroidDao.insertAll(*data)
         }
