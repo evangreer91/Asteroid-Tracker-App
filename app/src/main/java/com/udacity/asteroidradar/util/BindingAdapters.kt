@@ -2,9 +2,9 @@ package com.udacity.asteroidradar
 
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import com.squareup.picasso.Picasso
+import com.udacity.asteroidradar.domain.Asteroid
 
 @BindingAdapter("statusIcon")
 fun ImageView.setAsteroidStatusImage(item: Asteroid) {

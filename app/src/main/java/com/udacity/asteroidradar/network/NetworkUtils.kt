@@ -1,12 +1,10 @@
 package com.udacity.asteroidradar.api
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
-import com.udacity.asteroidradar.Asteroid
 import com.udacity.asteroidradar.Constants
+import com.udacity.asteroidradar.domain.Asteroid
 import org.json.JSONObject
-import retrofit2.Call
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
