@@ -1,60 +1,34 @@
 package com.udacity.asteroidradar.main
 
+import android.app.Application
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import com.udacity.asteroidradar.Asteroid
+import androidx.lifecycle.*
+import com.udacity.asteroidradar.domain.Asteroid
 import com.udacity.asteroidradar.api.NasaApi
-import com.udacity.asteroidradar.data.source.local.ImageOfTheDay
+import com.udacity.asteroidradar.domain.ImageOfTheDay
 import com.udacity.asteroidradar.api.parseAsteroidsJsonResult
+import com.udacity.asteroidradar.database.getDatabase
+import com.udacity.asteroidradar.repository.AsteroidRepository
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
-class MainViewModel : ViewModel() {
+class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     private val _imageOfTheDayResponse = MutableLiveData<ImageOfTheDay>()
     val imageOfTheDayResponse: LiveData<ImageOfTheDay>
         get() = _imageOfTheDayResponse
 
-    private val _asteroids = MutableLiveData<List<Asteroid>>()
-    val asteroids: LiveData<List<Asteroid>>
-        get() = _asteroids
-
-    private val _status = MutableLiveData<String>()
-    val status: LiveData<String>
-        get() = _status
+    private val database = getDatabase(application)
+    private val asteroidRepository = AsteroidRepository(database)
 
     init {
-        getNeoWSProperties()
+        viewModelScope.launch {
+            asteroidRepository.refreshAsteroids()
+        }
         getImageOfTheDay()
     }
 
-    private fun getNeoWSProperties() {
-
-        // pass om a hash map to add query parameters to the get API call
-        val filter = HashMap<String, String>()
-        filter["start_date"] = "2015-09-08"
-        filter["end_date"] = "2015-09-08"
-        filter["api_key"] = "gBoOTigLxjL6vuY426CjoefdjLlrJeWm3u8Dza7A"
-
-        // we run getAsteroids call in a coroutine and take advantage of error handling
-        viewModelScope.launch {
-            try {
-                var response = NasaApi.retrofitService.getAsteroids(filter)
-                Log.i("MainViewModel", response)
-                val result = JSONObject(response)
-                val data = parseAsteroidsJsonResult(result)
-
-                _asteroids.value = data
-                _status.value = "Success"
-            } catch (e: Exception) {
-                _status.value = "Failure: ${e.message}"
-                Log.i("MainViewModel", _status.value!!)
-            }
-        }
-    }
+    val asteroids = asteroidRepository.asteroids
 
     private fun getImageOfTheDay() {
 
@@ -83,5 +57,18 @@ class MainViewModel : ViewModel() {
 
     fun displayAsteroidDetailsComplete() {
         _navigateToSelectedAsteroid.value = null
+    }
+
+    /**
+     * Factory for constructing DevByteViewModel with parameter
+     */
+    class Factory(val app: Application) : ViewModelProvider.Factory {
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
+                @Suppress("UNCHECKED_CAST")
+                return MainViewModel(app) as T
+            }
+            throw IllegalArgumentException("Unable to construct viewmodel")
+        }
     }
 }
