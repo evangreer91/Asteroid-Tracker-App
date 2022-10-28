@@ -7,7 +7,7 @@ import com.udacity.asteroidradar.domain.ImageOfTheDay
 
 @Dao
 interface AsteroidDao {
-    @Query("SELECT * FROM asteroid_table")
+    @Query("SELECT * FROM asteroid_table ORDER BY closeApproachDate DESC")
     fun getAsteroids(): LiveData<List<DatabaseAsteroid>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

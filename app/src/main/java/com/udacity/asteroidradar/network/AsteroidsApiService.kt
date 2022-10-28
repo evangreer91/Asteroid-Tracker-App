@@ -2,6 +2,7 @@ package com.udacity.asteroidradar.api
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import com.udacity.asteroidradar.Constants
 import com.udacity.asteroidradar.domain.ImageOfTheDay
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -10,8 +11,10 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 import retrofit2.http.QueryMap
 
+
+
 // root address of the nasa server endpoint
-private const val BASE_URL = "https://api.nasa.gov/"
+private const val BASE_URL = Constants.BASE_URL
 
 // we add the moshi library to parse the response for the image of the day into JSON
 private val moshi = Moshi.Builder()
