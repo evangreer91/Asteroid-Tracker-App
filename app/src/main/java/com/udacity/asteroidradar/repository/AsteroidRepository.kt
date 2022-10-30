@@ -24,7 +24,7 @@ class AsteroidRepository(private val database: AsteroidDatabase) {
             val filter = HashMap<String, String>()
             filter["start_date"] = "2015-09-08"
             filter["end_date"] = "2015-09-08"
-            filter["api_key"] = "gBoOTigLxjL6vuY426CjoefdjLlrJeWm3u8Dza7A"
+            filter["api_key"] = "API_KEY_HERE"
 
             val response = NasaApi.retrofitService.getAsteroids(filter)
             val data =
