@@ -39,7 +39,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     private fun getImageOfTheDay() {
 
-        val APIKey = "gBoOTigLxjL6vuY426CjoefdjLlrJeWm3u8Dza7A"
+        val APIKey = "API_KEY_HERE"
 
         // we run getPictureOfTheDay call in a coroutine and take advantage of error handling
         viewModelScope.launch {
