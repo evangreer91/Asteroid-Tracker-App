@@ -3,7 +3,9 @@ package com.udacity.asteroidradar.main
 import android.app.Application
 import android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO
 import android.util.Log
+import android.view.MenuItem
 import androidx.lifecycle.*
+import com.udacity.asteroidradar.api.AsteroidFilter
 import com.udacity.asteroidradar.domain.Asteroid
 import com.udacity.asteroidradar.api.NasaApi
 import com.udacity.asteroidradar.domain.ImageOfTheDay
@@ -27,6 +29,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             asteroidRepository.refreshAsteroids()
         }
         getImageOfTheDay()
+    }
+
+    fun updateFilter(filter: AsteroidFilter) {
+        asteroidRepository.filterAsteroids(filter)
     }
 
     val asteroids = asteroidRepository.asteroids
