@@ -3,12 +3,21 @@ package com.udacity.asteroidradar.database
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.udacity.asteroidradar.api.getNextSevenDaysFormattedDates
 import com.udacity.asteroidradar.domain.ImageOfTheDay
+
+val dates = getNextSevenDaysFormattedDates()
 
 @Dao
 interface AsteroidDao {
     @Query("SELECT * FROM asteroid_table ORDER BY closeApproachDate DESC")
-    fun getAsteroids(): LiveData<List<DatabaseAsteroid>>
+    fun getAllAsteroids(): LiveData<List<DatabaseAsteroid>>
+
+    @Query("SELECT * FROM asteroid_table WHERE closeApproachDate = :startDate ORDER BY closeApproachDate DESC")
+    fun getTodayAsteroids(startDate: String): LiveData<List<DatabaseAsteroid>>
+
+    @Query("SELECT * FROM asteroid_table WHERE closeApproachDate >= :startDate AND closeApproachDate <= :endDate ORDER BY closeApproachDate DESC")
+    fun getWeeksAsteroids(startDate: String, endDate: String): LiveData<List<DatabaseAsteroid>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(vararg asteroids: DatabaseAsteroid)
