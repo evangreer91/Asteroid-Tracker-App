@@ -36,7 +36,7 @@ class MainViewModel : ViewModel() {
         val filter = HashMap<String, String>()
         filter["start_date"] = "2015-09-08"
         filter["end_date"] = "2015-09-08"
-        filter["api_key"] = "KnAmTbGzQWQKqgLxcDOGbyQsy3xfghB55wYm7LSq"
+        filter["api_key"] = "SPI_KRY_HERE"
 
         // we run getAsteroids call in a coroutine and take advantage of error handling
         viewModelScope.launch {
@@ -55,7 +55,7 @@ class MainViewModel : ViewModel() {
 
     private fun getImageOfTheDay() {
 
-        val APIKey = "KnAmTbGzQWQKqgLxcDOGbyQsy3xfghB55wYm7LSq"
+        val APIKey = "API_KEY_HERE"
 
         // we run getPictureOfTheDay call in a coroutine and take advantage of error handling
         viewModelScope.launch {
