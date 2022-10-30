@@ -36,7 +36,7 @@ class MainViewModel : ViewModel() {
         val filter = HashMap<String, String>()
         filter["start_date"] = "2015-09-08"
         filter["end_date"] = "2015-09-08"
-        filter["api_key"] = "SPI_KRY_HERE"
+        filter["api_key"] = "API_KRY_HERE"
 
         // we run getAsteroids call in a coroutine and take advantage of error handling
         viewModelScope.launch {
