@@ -9,7 +9,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.udacity.asteroidradar.R
-import com.udacity.asteroidradar.api.AsteroidFilter
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
 import com.udacity.asteroidradar.repository.AsteroidRepository
 
@@ -62,13 +61,11 @@ class MainFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        viewModel.updateFilter(
-            when (item.itemId) {
-                R.id.show_today_menu -> AsteroidFilter.SHOW_TODAY
-                R.id.show_week_menu -> AsteroidFilter.SHOW_WEEK
-                else -> AsteroidFilter.SHOW_ALL
-            }
-        )
+        viewModel.optionMenu.value = when(item.itemId) {
+            R.id.show_today_menu -> MainViewModel.AsteroidFilter.SHOW_TODAY
+            R.id.show_week_menu -> MainViewModel.AsteroidFilter.SHOW_WEEK
+            else -> MainViewModel.AsteroidFilter.SHOW_SAVED
+        }
         return true
     }
 }

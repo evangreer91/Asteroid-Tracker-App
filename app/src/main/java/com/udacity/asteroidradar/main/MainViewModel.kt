@@ -5,7 +5,6 @@ import android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO
 import android.util.Log
 import android.view.MenuItem
 import androidx.lifecycle.*
-import com.udacity.asteroidradar.api.AsteroidFilter
 import com.udacity.asteroidradar.domain.Asteroid
 import com.udacity.asteroidradar.api.NasaApi
 import com.udacity.asteroidradar.domain.ImageOfTheDay
@@ -17,25 +16,36 @@ import org.json.JSONObject
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
+    enum class AsteroidFilter(val value: String) {
+        SHOW_WEEK("week"),
+        SHOW_TODAY("today"),
+        SHOW_SAVED("all")
+    }
+
     private val _imageOfTheDayResponse = MutableLiveData<ImageOfTheDay>()
     val imageOfTheDayResponse: LiveData<ImageOfTheDay>
         get() = _imageOfTheDayResponse
+
+    var optionMenu = MutableLiveData<AsteroidFilter>(AsteroidFilter.SHOW_SAVED)
 
     private val database = getDatabase(application)
     private val asteroidRepository = AsteroidRepository(database)
 
     init {
+
         viewModelScope.launch {
             asteroidRepository.refreshAsteroids()
         }
         getImageOfTheDay()
     }
 
-    fun updateFilter(filter: AsteroidFilter) {
-        asteroidRepository.filterAsteroids(filter)
+    val asteroids: LiveData<List<Asteroid>> = Transformations.switchMap(optionMenu) {
+        when(it) {
+            AsteroidFilter.SHOW_SAVED -> asteroidRepository.allAsteroids
+            AsteroidFilter.SHOW_TODAY -> asteroidRepository.todayAsteroids
+            else -> asteroidRepository.weeksAsteroids
+        }
     }
-
-    val asteroids = asteroidRepository.asteroids
 
     private fun getImageOfTheDay() {
 
