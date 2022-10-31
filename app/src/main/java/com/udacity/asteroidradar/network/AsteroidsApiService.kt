@@ -11,12 +11,6 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 import retrofit2.http.QueryMap
 
-enum class AsteroidFilter(val value: String) {
-    SHOW_WEEK("week"),
-    SHOW_TODAY("today"),
-    SHOW_ALL("all")
-}
-
 // root address of the nasa server endpoint
 private const val BASE_URL = Constants.BASE_URL
 
