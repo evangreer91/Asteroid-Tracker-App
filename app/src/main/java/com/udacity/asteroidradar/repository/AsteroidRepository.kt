@@ -1,24 +1,21 @@
 package com.udacity.asteroidradar.repository
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.udacity.asteroidradar.api.NasaApi
 import com.udacity.asteroidradar.api.getNextSevenDaysFormattedDates
 import com.udacity.asteroidradar.api.parseAsteroidsJsonResult
 import com.udacity.asteroidradar.database.AsteroidDatabase
 import com.udacity.asteroidradar.database.asDomainModel
-import com.udacity.asteroidradar.database.dates
-import com.udacity.asteroidradar.domain.Asteroid
 import com.udacity.asteroidradar.domain.asDatabaseModel
-import com.udacity.asteroidradar.main.MainViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
+import java.net.UnknownHostException
 
 class AsteroidRepository(private val database: AsteroidDatabase) {
     private val dates = getNextSevenDaysFormattedDates()
 
-    val allAsteroids =Transformations.map(database.asteroidDao.getAllAsteroids()) {
+    val allAsteroids = Transformations.map(database.asteroidDao.getAllAsteroids()) {
         it.asDomainModel()
     }
 
@@ -37,10 +34,27 @@ class AsteroidRepository(private val database: AsteroidDatabase) {
             filter["end_date"] = dates.last()
             filter["api_key"] = "API_KEY_HERE"
 
-            val response = NasaApi.retrofitService.getAsteroids(filter)
-            val data = parseAsteroidsJsonResult(JSONObject(response)).asDatabaseModel().toTypedArray()
+                val response = NasaApi.retrofitService.getAsteroids(filter)
+                val data = parseAsteroidsJsonResult(JSONObject(response)).asDatabaseModel().toTypedArray()
 
-            database.asteroidDao.insertAll(*data)
+                database.asteroidDao.insertAll(*data)
+            } catch(e: UnknownHostException) {
+
+            }
+        }
+    }
+
+    suspend fun refreshImageOfTheDay() {
+        withContext(Dispatchers.IO) {
+            try {
+                val APIKey = "gBoOTigLxjL6vuY426CjoefdjLlrJeWm3u8Dza7A"
+
+                val response = NasaApi.retrofitService.getImageOfTheDay(APIKey).asDatabaseModel()
+
+                database.asteroidDao.updateImageOfTheDay(response)
+            } catch(e: UnknownHostException) {
+
+            }
         }
     }
 }
