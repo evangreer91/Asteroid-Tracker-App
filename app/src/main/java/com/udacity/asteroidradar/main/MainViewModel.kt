@@ -26,15 +26,19 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val imageOfTheDayResponse: LiveData<ImageOfTheDay>
         get() = _imageOfTheDayResponse
 
+    private val _internetAvailable = MutableLiveData<Boolean>()
+    val internetAvailable: LiveData<Boolean>
+        get() = _internetAvailable
+
     var optionMenu = MutableLiveData<AsteroidFilter>(AsteroidFilter.SHOW_SAVED)
 
     private val database = getDatabase(application)
     private val asteroidRepository = AsteroidRepository(database)
 
     init {
-
         viewModelScope.launch {
             asteroidRepository.refreshAsteroids()
+            asteroidRepository.refreshImageOfTheDay()
         }
         getImageOfTheDay()
     }
@@ -49,7 +53,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     private fun getImageOfTheDay() {
 
-        val APIKey = "API_KEY_HERE"
+        val APIKey = "gBoOTigLxjL6vuY426CjoefdjLlrJeWm3u8Dza7A"
 
         // we run getPictureOfTheDay call in a coroutine and take advantage of error handling
         viewModelScope.launch {

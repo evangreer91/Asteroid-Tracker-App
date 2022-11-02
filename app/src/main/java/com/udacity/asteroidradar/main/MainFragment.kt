@@ -3,6 +3,7 @@ package com.udacity.asteroidradar.main
 import android.app.ProgressDialog.show
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -27,6 +28,8 @@ class MainFragment : Fragment() {
         val binding: FragmentMainBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_main, container, false)
 
+        val application = requireNotNull(this.activity).application
+
         val adapter = AsteroidAdapter(AsteroidAdapter.OnClickListener {
             viewModel.displayAsteroidDetails(it)
         })
@@ -44,6 +47,10 @@ class MainFragment : Fragment() {
                 this.findNavController().navigate(MainFragmentDirections.actionShowDetail(it))
                 viewModel.displayAsteroidDetailsComplete()
             }
+        })
+
+        viewModel.internetAvailable.observe(viewLifecycleOwner, Observer {
+            Toast.makeText(context, "No Internet Available", Toast.LENGTH_SHORT).show()
         })
 
         binding.lifecycleOwner = this

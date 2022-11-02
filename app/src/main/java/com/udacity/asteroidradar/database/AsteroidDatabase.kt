@@ -21,9 +21,15 @@ interface AsteroidDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(vararg asteroids: DatabaseAsteroid)
+
+    @Query("SELECT * FROM image_of_the_day_table")
+    fun getImageOfTheDay(): LiveData<DatabaseImageOfTheDay>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun updateImageOfTheDay(databaseImageOfTheDay: DatabaseImageOfTheDay)
 }
 
-@Database(entities = [DatabaseAsteroid::class], version = 3, exportSchema = false)
+@Database(entities = [DatabaseAsteroid::class, DatabaseImageOfTheDay::class], version = 4, exportSchema = false)
 abstract class AsteroidDatabase: RoomDatabase() {
     abstract val asteroidDao: AsteroidDao
 }
