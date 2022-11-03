@@ -1,5 +1,6 @@
 package com.udacity.asteroidradar.database
 
+import androidx.lifecycle.Transformations.map
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.udacity.asteroidradar.domain.Asteroid
@@ -42,12 +43,6 @@ fun List<DatabaseAsteroid>.asDomainModel(): List<Asteroid> {
 }
 
 @JvmName("asDomainModelDatabaseImageOfTheDay")
-fun List<DatabaseImageOfTheDay>.asDomainModel(): List<ImageOfTheDay> {
-    return map {
-        ImageOfTheDay (
-            url = it.url,
-            mediaType = it.mediaType,
-            title = it.title
-        )
-    }
+fun DatabaseImageOfTheDay.asDomainModel(): ImageOfTheDay {
+    return ImageOfTheDay (url, mediaType, title)
 }

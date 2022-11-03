@@ -5,6 +5,7 @@ import android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO
 import android.util.Log
 import android.view.MenuItem
 import androidx.lifecycle.*
+import com.udacity.asteroidradar.BuildConfig
 import com.udacity.asteroidradar.domain.Asteroid
 import com.udacity.asteroidradar.api.NasaApi
 import com.udacity.asteroidradar.domain.ImageOfTheDay
@@ -25,10 +26,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val _imageOfTheDayResponse = MutableLiveData<ImageOfTheDay>()
     val imageOfTheDayResponse: LiveData<ImageOfTheDay>
         get() = _imageOfTheDayResponse
-
-    private val _internetAvailable = MutableLiveData<Boolean>()
-    val internetAvailable: LiveData<Boolean>
-        get() = _internetAvailable
 
     var optionMenu = MutableLiveData<AsteroidFilter>(AsteroidFilter.SHOW_SAVED)
 
@@ -51,17 +48,20 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    val imageOfTheDay: LiveData<ImageOfTheDay> = asteroidRepository.imageOfTheDay
+
     private fun getImageOfTheDay() {
 
-        val APIKey = "API_KEY_HERE"
+        val APIKey = BuildConfig.NASA_API_KEY
 
         // we run getPictureOfTheDay call in a coroutine and take advantage of error handling
         viewModelScope.launch {
             try {
                 var imageResponse = NasaApi.retrofitService.getImageOfTheDay(APIKey)
+
                 _imageOfTheDayResponse.value = imageResponse
             } catch (e: Exception) {
-                println("Handling error...")
+
             }
         }
     }
