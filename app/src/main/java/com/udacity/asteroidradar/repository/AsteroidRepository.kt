@@ -33,7 +33,7 @@ class AsteroidRepository(private val database: AsteroidDatabase) {
                 val filter = HashMap<String, String>()
                 filter["start_date"] = dates[0]
                 filter["end_date"] = dates.last()
-                filter["api_key"] = "API_KEY_HERE"
+                filter["api_key"] = "gBoOTigLxjL6vuY426CjoefdjLlrJeWm3u8Dza7A"
 
                 val response = NasaApi.retrofitService.getAsteroids(filter)
                 val data = parseAsteroidsJsonResult(JSONObject(response)).asDatabaseModel().toTypedArray()
@@ -48,7 +48,7 @@ class AsteroidRepository(private val database: AsteroidDatabase) {
     suspend fun refreshImageOfTheDay() {
         withContext(Dispatchers.IO) {
             try {
-                val APIKey = "API_KEY_HERE"
+                val APIKey = "gBoOTigLxjL6vuY426CjoefdjLlrJeWm3u8Dza7A"
 
                 val response = NasaApi.retrofitService.getImageOfTheDay(APIKey).asDatabaseModel()
 

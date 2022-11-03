@@ -1,5 +1,7 @@
 package com.udacity.asteroidradar
 
+import android.content.Context
+import android.provider.Settings.Global.getString
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
@@ -10,8 +12,10 @@ import com.udacity.asteroidradar.domain.Asteroid
 fun ImageView.setAsteroidStatusImage(item: Asteroid) {
     if (item.isPotentiallyHazardous) {
         setImageResource(R.drawable.ic_status_potentially_hazardous)
+        contentDescription = context.getString(R.string.potentially_hazardous_asteroid_image)
     } else {
         setImageResource(R.drawable.ic_status_normal)
+        contentDescription = context.getString(R.string.not_hazardous_asteroid_image)
     }
 }
 
@@ -30,11 +34,13 @@ fun TextView.setCloseApproachDate(item: Asteroid) {
 }
 
 @BindingAdapter("asteroidStatusImage")
-fun bindDetailsStatusImage(imageView: ImageView, isHazardous: Boolean) {
+fun ImageView.bindDetailsStatusImage(isHazardous: Boolean) {
     if (isHazardous) {
-        imageView.setImageResource(R.drawable.asteroid_hazardous)
+        setImageResource(R.drawable.asteroid_hazardous)
+        contentDescription = context.getString(R.string.potentially_hazardous_asteroid_image)
     } else {
-        imageView.setImageResource(R.drawable.asteroid_safe)
+        setImageResource(R.drawable.asteroid_safe)
+        contentDescription = context.getString(R.string.not_hazardous_asteroid_image)
     }
 }
 
