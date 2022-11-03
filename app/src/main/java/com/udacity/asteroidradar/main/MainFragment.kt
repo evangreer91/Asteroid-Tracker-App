@@ -49,10 +49,6 @@ class MainFragment : Fragment() {
             }
         })
 
-        viewModel.internetAvailable.observe(viewLifecycleOwner, Observer {
-            Toast.makeText(context, "No Internet Available", Toast.LENGTH_SHORT).show()
-        })
-
         binding.lifecycleOwner = this
 
         binding.viewModel = viewModel
